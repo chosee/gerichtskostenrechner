@@ -228,7 +228,7 @@ function displayResult(result, includeAnwalt) {
             vorschuss: 'Kostenvorschuss (ca. 50%)',
             bandbreite: 'Bandbreite',
             estimated: 'ca.',
-            disclaimer: 'Diese Berechnung dient nur zur Orientierung. Die tatsächlichen Kosten hängen vom Kanton, dem Aufwand und weiteren Faktoren ab.',
+            disclaimer: 'Diese Berechnung dient nur zur Orientierung. Die tatsächlichen Kosten hängen vom Aufwand, der Komplexität und weiteren Faktoren ab.',
             lawyer_note: 'Anwaltskosten sind grobe Schätzungen und können je nach Anwalt und Fall stark variieren.'
         },
         fr: {
@@ -243,7 +243,7 @@ function displayResult(result, includeAnwalt) {
             vorschuss: 'Avance de frais (env. 50%)',
             bandbreite: 'Fourchette',
             estimated: 'env.',
-            disclaimer: 'Ce calcul sert uniquement d\'orientation. Les frais effectifs dépendent du canton, de la charge de travail et d\'autres facteurs.',
+            disclaimer: 'Ce calcul sert uniquement d\'orientation. Les frais effectifs dépendent de la charge de travail, de la complexité et d\'autres facteurs.',
             lawyer_note: 'Les frais d\'avocat sont des estimations approximatives et peuvent varier considérablement.'
         }
     };
