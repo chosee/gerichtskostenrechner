@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerichtskosten pro Kanton - Schweizer Gerichtskostenrechner</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <meta name="description" content="Übersicht der Gerichtskosten in allen 26 Schweizer Kantonen. Offizielle Gebührenverordnungen und Quellen.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .canton-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .canton-card {
+            background: var(--card-bg, #fff);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 4px solid var(--primary-color, #1a365d);
+        }
+        .canton-card h3 {
+            margin: 0 0 0.75rem 0;
+            color: var(--primary-color, #1a365d);
+            font-size: 1.1rem;
+        }
+        .canton-card .canton-code {
+            background: var(--primary-color, #1a365d);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+        }
+        .canton-card table {
+            width: 100%;
+            font-size: 0.9rem;
+            margin: 0.75rem 0;
+        }
+        .canton-card td {
+            padding: 0.35rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        .canton-card td:last-child {
+            text-align: right;
+            font-weight: 500;
+        }
+        .canton-card .source-link {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        .canton-card .source-link a {
+            color: var(--primary-color, #1a365d);
+        }
+        .canton-card.expensive {
+            border-left-color: #c53030;
+        }
+        .canton-card.cheap {
+            border-left-color: #2f855a;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+        .comparison-table th, .comparison-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .comparison-table th {
+            background: var(--primary-color, #1a365d);
+            color: white;
+        }
+        .comparison-table tr:nth-child(even) {
+            background: #f7fafc;
+        }
+        .comparison-table .highlight {
+            background: #fefcbf;
+        }
+        .methodology-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        .methodology-card h2 {
+            color: white;
+            margin-top: 0;
+        }
+        .methodology-card code {
+            background: rgba(255,255,255,0.2);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color, #1a365d);
+            text-decoration: none;
+            margin-bottom: 1rem;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .warning-box i {
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-row">
+            <div class="logo-container">
+                <img src="https://www.durchblick.nl/images/durchblick_logo.svg"
+                     alt="Durchblick Consultancy Logo"
+                     class="logo">
+            </div>
+            <div class="language-switcher">
+                <a href="../de/kosten.html" class="lang-btn active">DE</a>
+                <a href="../fr/kosten.html" class="lang-btn">FR</a>
+            </div>
+        </div>
+
+        <a href="./" class="back-link"><i class="fas fa-arrow-left"></i> Zurück zum Rechner</a>
+
+        <h1>Gerichtskosten pro Kanton</h1>
+        <p class="lead">Diese Übersicht zeigt, wie der Gerichtskostenrechner seine Werte ermittelt und welche offiziellen Quellen verwendet werden.</p>
+
+        <div class="methodology-card">
+            <h2><i class="fas fa-calculator"></i> Berechnungsmethode</h2>
+            <p>Der Rechner verwendet <strong>Zürich als Referenzkanton</strong> (Faktor 1.0) und passt die Gebühren mit kantonsspezifischen Multiplikatoren an:</p>
+            <p><code>Kantonale Gebühr = Zürcher Basisgebühr × Kantonsfaktor</code></p>
+            <p>Die Faktoren basieren auf den <strong>offiziellen kantonalen Gebührenverordnungen</strong> und wurden im November 2025 recherchiert.</p>
+        </div>
+
+        <div class="warning-box">
+            <p><i class="fas fa-exclamation-triangle"></i> <strong>Wichtig:</strong> Die Unterschiede zwischen den Kantonen können bei gleichem Streitwert bis zu <strong>Faktor 5</strong> betragen! Bei CHF 100'000 Streitwert reichen die Kosten von CHF 4'000 (Thurgau) bis CHF 20'000+ (Graubünden).</p>
+        </div>
+
+        <h2>Vergleich: Ordentliches Verfahren bei CHF 100'000 Streitwert</h2>
+
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Rang</th>
+                    <th>Kanton</th>
+                    <th>Faktor</th>
+                    <th>Gerichtskosten (ca.)</th>
+                    <th>Bemerkung</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="highlight">
+                    <td>1</td>
+                    <td><strong>TG</strong> Thurgau</td>
+                    <td>0.50</td>
+                    <td>CHF 4'000</td>
+                    <td>Günstigster Kanton</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><strong>LU</strong> Luzern</td>
+                    <td>0.65</td>
+                    <td>CHF 2'500–8'000</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><strong>VD</strong> Waadt</td>
+                    <td>0.80</td>
+                    <td>CHF 6'400</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td><strong>AG</strong> Aargau</td>
+                    <td>0.96</td>
+                    <td>CHF 7'700</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td><strong>ZH</strong> Zürich</td>
+                    <td>1.00</td>
+                    <td>CHF 5'000–12'000</td>
+                    <td>Referenzkanton</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td><strong>SG</strong> St. Gallen</td>
+                    <td>1.00</td>
+                    <td>CHF 8'000</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td><strong>ZG</strong> Zug</td>
+                    <td>1.25</td>
+                    <td>CHF 5'000–15'000</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td><strong>GE</strong> Genf</td>
+                    <td>1.30</td>
+                    <td>CHF 10'400</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td><strong>BE</strong> Bern</td>
+                    <td>1.50</td>
+                    <td>CHF 12'000</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td><strong>UR</strong> Uri</td>
+                    <td>1.50</td>
+                    <td>CHF 12'000</td>
+                    <td></td>
+                </tr>
+                <tr class="highlight">
+                    <td>11</td>
+                    <td><strong>GR</strong> Graubünden</td>
+                    <td>2.50</td>
+                    <td>bis CHF 30'000</td>
+                    <td>Teuerster Kanton!</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Alle 26 Kantone im Detail</h2>
+
+        <div class="canton-grid">
+            <!-- Günstige Kantone -->
+            <div class="canton-card cheap">
+                <h3><span class="canton-code">TG</span> Thurgau</h3>
+                <table>
+                    <tr><td>Faktor</td><td><strong>0.50</strong></td></tr>
+                    <tr><td>Schlichtung</td><td>max. CHF 400</td></tr>
+                    <tr><td>30k–100k Streitwert</td><td>CHF 1'000–4'000</td></tr>
+                </table>
+                <p class="source-link"><i class="fas fa-link"></i> <a href="https://www.rechtsbuch.tg.ch/app/de/texts_of_law/638.1" target="_blank">RB 638.1</a></p>
+            </div>
+
+            <div class="canton-card">
+                <h3><span class="canton-code">LU</span> Luzern</h3>
+                <table>
+                    <tr><td>Faktor</td><td><strong>0.65</strong></td></tr>
+                    <tr><td>Vereinfacht bis 30k</td><td>CHF 500–3'000</td></tr>
+                    <tr><td>Ordentlich 50k–100k</td><td>CHF 2'500–8'000</td></tr>
+                </table>
+                <p class="source-link"><i class="fas fa-link"></i> <a href="https://gerichte.lu.ch/rechtsgebiete/prozesskosten/zivilprozess/gerichtskosten" target="_blank">gerichte.lu.ch</a></p>
+            </div>
+
+            <div class="canton-card">
+                <h3><span class="canton-code">VD</span> Waadt</h3>
+                <table>
+                    <tr><td>Faktor</td><td><strong>0.80</strong></td></tr>
+                    <tr><td>100k Streitwert</td><td>max. CHF 1'000</td></tr>
+                </table>
+                <p class="source-link"><i class="fas fa-link"></i> <a href="https://www.lexfind.ch/tolv/105539/fr" target="_blank">TFJC 270.11.5</a></p>
+            </div>
+
+            <div class="canton-card">
+                <h3><span class="canton-code">OW</span> Obwalden</h3>
+                <table>
+                    <tr><td>Faktor</td><td><strong>0.80</strong></td></tr>
+                </table>
+                <p class="source-link"><i class="fas fa-link"></i> Gebührenordnung für die Rechtspflege</p>
+            </div>
+
+            <div class="canton-card">
+                <h3><span class="canton-code">NW</span> Nidwalden</h3>
+                <table>
+                    <tr><td>Faktor</td><td><strong>0.80</strong></td></tr>
+                </table>
+                <p class="source-link"><i class="fas fa-link"></i> Prozesskostengesetz (PKoG)</p>
+            </div>
+
+            <div class="canton-card">
+                <h3><span class="canton-code">GL</span> Glarus</h3>
+                <table>
+                    <tr><td>Faktor</td><td><strong>0.85</strong></td></tr>
+                </table>
+                <p class="source-link"><i class="fas fa-link"></i> Zivil- und Strafprozesskostenverordnung</p>
+            </div>
+
+            <div class="canton-card">
+                <h3><span class="canton-code">AR</span> Appenzell AR</h3>
+                <table>
+                    <tr><td>Faktor</td><td><strong>0.85</strong></td></tr>
+                    <tr><td>Erstinstanzlich max.</td><td>CHF 5'000</td></tr>
+                </table>
+                <p class="source-link"><i class="fas fa-link"></i> Gebührenordnung</p>
+            </div>
+
+            <div class="canton-card">
+                <h3><span class="canton-code">AI</span> Appenzell IR</h3>
+                <table>
+                    <tr><td>Faktor</td><td><strong>0.90</strong></td></tr>
+                    <tr><td>Obergrenze Standard</td><td>CHF 80'000</td></tr>
+                    <tr><td>Obergrenze komplex</td><td>CHF 360'000</td></tr>
+                </table>
+                <p class="source-link"><i class="fas fa-link"></i> GGV</p>
+            </div>
+
+            <div class="canton-card">
+                <h3><span class="canton-code">SZ</span> Schwyz</h3>
+                <table>
+                    <tr><td>Faktor</td><td><strong>0.90</strong></td></tr>
+                </table>
+                <p class="source-link"><i class="fas fa-link"></i> <a href="https://www.kgsz.ch" target="_blank">Kantonsgericht Schwyz</a></p>
+            </div>
+
+            <div class="canton-card">
+                <h3><span class="canton-code">SO</span> Solothurn</h3>
+                <table>
+                    <tr><td>Faktor</td><td><strong>0.90</strong></td></tr>
+                    <tr><td>Mindestgebühr</td><td>CHF 200</td></tr>
+                </table>
+                <p class="source-link"><i class="fas fa-link"></i> <a href="https://bgs.so.ch/app/de/texts_of_law/615.11" target="_blank">BGS 615.11</a></p>
+            </div>
+
+            <div class="canton-card">
+                <h3><span class="canton-code">SH</span> Schaffhausen</h3>
+                <table>
+                    <tr><td>Faktor</td><td><strong>0.90</strong></td></tr>
+                </table>
+                <p class="source-link"><i class="fas fa-link"></i> Gerichtskostenverordnung</p>
+            </div>
+
+            <div class="canton-card">
+                <h3><span class="canton-code">TI</span> Tessin</h3>
+                <table>
+                    <tr><td>Faktor</td><td><strong>0.90</strong></td></tr>
+                    <tr><td>Summarisch</td><td>50% der ordentlichen</td></tr>
+                </table>
+                <p class="source-link"><i class="fas fa-link"></i> <a href="https://m3.ti.ch/CAN/RLeggi/public/index.php/raccolta-leggi/legge/num/137" target="_blank">LTG</a></p>
+            </div>
+
+            <div class="canton-card">
+                <h3><span class="canton-code">VS</span> Wallis</h3>
+                <table>
+                    <tr><td>Faktor</td><td><strong>0.90</strong></td></tr>
+                </table>
+                <p class="source-link"><i class="fas fa-link"></i> <a href="https://lex.vs.ch/app/de/texts_of_law/173.8" target="_blank">Gebührentarif 173.8</a></p>
+            </div>
+
+            <div class="canton-card">
+                <h3><span class="canton-code">BL</span> Basel-Landschaft</h3>
+                <table>
+                    <tr><td>Faktor</td><td><strong>0.95</strong></td></tr>
+                </table>
+                <p class="source-link"><i class="fas fa-link"></i> <a href="https://bl.clex.ch/app/de/texts_of_law/170.31" target="_blank">SGS 170.31</a></p>
+            </div>
+
+            <div class="canton-card">
+                <h3><span class="canton-code">AG</span> Aargau</h3>
+                <table>
+                    <tr><td>Faktor</td><td><strong>0.96</strong></td></tr>
+                    <tr><td>50k Streitwert</td><td>CHF 4'290</td></tr>
+                    <tr><td>100k Streitwert</td><td>CHF 7'700</td></tr>
+                </table>
+                <p class="source-link"><i class="fas fa-link"></i> <a href="https://gesetzessammlungen.ag.ch/app/de/texts_of_law/662.110" target="_blank">SAR 662.110</a></p>
+            </div>
+
+            <!-- Referenzkanton -->
+            <div class="canton-card" style="border-left-color: #3182ce;">
+                <h3><span class="canton-code">ZH</span> Zürich (Referenz)</h3>
+                <table>
+                    <tr><td>Faktor</td><td><strong>1.00</strong></td></tr>
+                    <tr><td>Schlichtung</td><td>CHF 100–850</td></tr>
+                    <tr><td>Ordentlich bis 100k</td><td>CHF 5'000–12'000</td></tr>
+                </table>
+                <p class="source-link"><i class="fas fa-link"></i> <a href="https://www.gerichte-zh.ch/themen/zivilprozess/prozesskosten.html" target="_blank">GebV OG</a></p>
+            </div>
+
+            <div class="canton-card">
+                <h3><span class="canton-code">SG</span> St. Gallen</h3>
+                <table>
+                    <tr><td>Faktor</td><td><strong>1.00</strong></td></tr>
+                    <tr><td>50k Streitwert</td><td>CHF 8'000</td></tr>
+                </table>
+                <p class="source-link"><i class="fas fa-link"></i> <a href="https://www.gesetzessammlung.sg.ch/frontend/versions/1569" target="_blank">sGS 941.12</a></p>
+            </div>
+
+            <div class="canton-card">
+                <h3><span class="canton-code">NE</span> Neuenburg</h3>
+                <table>
+                    <tr><td>Faktor</td><td><strong>1.00</strong></td></tr>
+                    <tr><td>100k–1M Streitwert</td><td>CHF 6'500 + 3%</td></tr>
+                </table>
+                <p class="source-link"><i class="fas fa-link"></i> <a href="https://rsn.ne.ch/DATA/program/books/rsne/pdf/1641.pdf" target="_blank">RSN 164.1</a></p>
+            </div>
+
+            <div class="canton-card">
+                <h3><span class="canton-code">BS</span> Basel-Stadt</h3>
+                <table>
+                    <tr><td>Faktor</td><td><strong>1.10</strong></td></tr>
+                </table>
+                <p class="source-link"><i class="fas fa-link"></i> <a href="https://www.gesetzessammlung.bs.ch/app/de/texts_of_law/154.810" target="_blank">SG 154.810</a></p>
+            </div>
+
+            <div class="canton-card">
+                <h3><span class="canton-code">FR</span> Freiburg</h3>
+                <table>
+                    <tr><td>Faktor</td><td><strong>1.20</strong></td></tr>
+                    <tr><td>Max. Berufung</td><td>CHF 500'000</td></tr>
+                </table>
+                <p class="source-link"><i class="fas fa-link"></i> <a href="https://bdlf.fr.ch/app/fr/texts_of_law/150.12" target="_blank">RSF 150.12</a></p>
+            </div>
+
+            <div class="canton-card">
+                <h3><span class="canton-code">JU</span> Jura</h3>
+                <table>
+                    <tr><td>Faktor</td><td><strong>1.20</strong></td></tr>
+                </table>
+                <p class="source-link"><i class="fas fa-link"></i> <a href="https://rsju.jura.ch/fr/viewdocument.html?idn=20021&id=34172" target="_blank">Décret 176.511</a></p>
+            </div>
+
+            <div class="canton-card">
+                <h3><span class="canton-code">ZG</span> Zug</h3>
+                <table>
+                    <tr><td>Faktor</td><td><strong>1.25</strong></td></tr>
+                    <tr><td>Schlichtung bis 100k</td><td>CHF 300–600</td></tr>
+                </table>
+                <p class="source-link"><i class="fas fa-link"></i> <a href="https://bgs.zg.ch/app/de/texts_of_law/161.7" target="_blank">BGS 161.7</a></p>
+            </div>
+
+            <div class="canton-card">
+                <h3><span class="canton-code">GE</span> Genf</h3>
+                <table>
+                    <tr><td>Faktor</td><td><strong>1.30</strong></td></tr>
+                </table>
+                <p class="source-link"><i class="fas fa-link"></i> <a href="https://silgeneve.ch/legis/data/rsg_e1_05p10.htm" target="_blank">RTFMC</a></p>
+            </div>
+
+            <div class="canton-card">
+                <h3><span class="canton-code">BE</span> Bern</h3>
+                <table>
+                    <tr><td>Faktor</td><td><strong>1.50</strong></td></tr>
+                    <tr><td>50k Streitwert</td><td>CHF 6'660</td></tr>
+                    <tr><td>100k Streitwert</td><td>CHF 12'000</td></tr>
+                </table>
+                <p class="source-link"><i class="fas fa-link"></i> <a href="https://www.zsg.justice.be.ch/de/start/themen/zivilrecht/kosten/verfahrenskosten.html" target="_blank">VBRS-Richtlinien</a></p>
+            </div>
+
+            <div class="canton-card">
+                <h3><span class="canton-code">UR</span> Uri</h3>
+                <table>
+                    <tr><td>Faktor</td><td><strong>1.50</strong></td></tr>
+                    <tr><td>100k Streitwert</td><td>ca. CHF 12'000</td></tr>
+                </table>
+                <p class="source-link"><i class="fas fa-link"></i> Gerichtsgebührenreglement</p>
+            </div>
+
+            <!-- Teuerster Kanton -->
+            <div class="canton-card expensive">
+                <h3><span class="canton-code">GR</span> Graubünden</h3>
+                <table>
+                    <tr><td>Faktor</td><td><strong>2.50</strong></td></tr>
+                    <tr><td>Schlichtung</td><td>CHF 100–500</td></tr>
+                    <tr><td>100k Streitwert</td><td>bis CHF 30'000!</td></tr>
+                </table>
+                <p class="source-link"><i class="fas fa-link"></i> <a href="https://www.gr-lex.gr.ch/app/de/texts_of_law/320.210" target="_blank">BR 320.210</a></p>
+            </div>
+        </div>
+
+        <h2>Kostenlose Verfahren (Art. 114 ZPO)</h2>
+        <div class="info-step-card">
+            <div class="step-icon">
+                <i class="fas fa-hand-holding-usd"></i>
+            </div>
+            <div class="step-content">
+                <p>Folgende Verfahren sind <strong>gerichtskostenfrei</strong>:</p>
+                <ul>
+                    <li><strong>Arbeitsrecht</strong> bis CHF 30'000 Streitwert</li>
+                    <li><strong>Mietrecht</strong> (Wohn- und Geschäftsräume) – unbegrenzt</li>
+                    <li><strong>Gleichstellungsgesetz</strong> – unbegrenzt</li>
+                    <li><strong>Mitwirkungsgesetz</strong> – unbegrenzt</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>Quellen und Methodik</h2>
+        <div class="info-step-card">
+            <div class="step-icon">
+                <i class="fas fa-book"></i>
+            </div>
+            <div class="step-content">
+                <p>Die Daten wurden im <strong>November 2025</strong> recherchiert aus:</p>
+                <ul>
+                    <li>Offiziellen kantonalen Gebührenverordnungen</li>
+                    <li>Kantonalen Gesetzessammlungen</li>
+                    <li>Gerichtswebseiten der Kantone</li>
+                </ul>
+                <p>Weitere Informationen:</p>
+                <ul>
+                    <li><a href="https://www.justis.ch/de/rechtstipps/artikel/versicherungen/wie-viel-kostet-ein-gerichtsverfahren-in-der-schweiz" target="_blank">Justis.ch: Was kostet ein Gerichtsverfahren?</a></li>
+                    <li><a href="https://www.nzz.ch/schweiz/kostspielige-justiz-in-der-schweiz-wer-soll-das-bezahlen-ld.1681569" target="_blank">NZZ: Kostspielige Justiz in der Schweiz</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="warning-box">
+            <p><i class="fas fa-info-circle"></i> <strong>Haftungsausschluss:</strong> Diese Werte sind Richtwerte und können je nach Komplexität, Aufwand und Einzelfall abweichen. Für verbindliche Angaben konsultieren Sie einen Rechtsanwalt oder das zuständige Gericht.</p>
+        </div>
+
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>
+                <a href="https://durchblick.nl" target="_blank" rel="noopener">Durchblick Consultancy BV</a>
+                &nbsp;•&nbsp;
+                <a href="https://github.com/chosee/gerichtskostenrechner" target="_blank" rel="noopener">
+                    <i class="fab fa-github"></i> Quellcode auf GitHub
+                </a>
+            </p>
+            <p class="footer-disclaimer">Diese Übersicht dient nur zur Orientierung. Keine Rechtsberatung.</p>
+        </div>
+    </footer>
+</body>
+</html>
