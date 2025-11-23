@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+    <!-- German calculator -->
+    <url>
+        <loc>https://gerichtskostenrechner.ch/de/</loc>
+        <lastmod>2025-11-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1.0</priority>
+        <xhtml:link rel="alternate" hreflang="de" href="https://gerichtskostenrechner.ch/de/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://gerichtskostenrechner.ch/fr/"/>
+    </url>
+
+    <!-- French calculator -->
+    <url>
+        <loc>https://gerichtskostenrechner.ch/fr/</loc>
+        <lastmod>2025-11-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1.0</priority>
+        <xhtml:link rel="alternate" hreflang="de" href="https://gerichtskostenrechner.ch/de/"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://gerichtskostenrechner.ch/fr/"/>
+    </url>
+
+    <!-- German cost overview -->
+    <url>
+        <loc>https://gerichtskostenrechner.ch/de/kosten.html</loc>
+        <lastmod>2025-11-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="de" href="https://gerichtskostenrechner.ch/de/kosten.html"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://gerichtskostenrechner.ch/fr/kosten.html"/>
+    </url>
+
+    <!-- French cost overview -->
+    <url>
+        <loc>https://gerichtskostenrechner.ch/fr/kosten.html</loc>
+        <lastmod>2025-11-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="de" href="https://gerichtskostenrechner.ch/de/kosten.html"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://gerichtskostenrechner.ch/fr/kosten.html"/>
+    </url>
+
+</urlset>
