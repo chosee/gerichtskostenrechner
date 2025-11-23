@@ -22,6 +22,9 @@ gerichtskostenrechner/
 ├── scripts/
 │   ├── calculations.js     # Berechnungslogik + Kantonsfaktoren
 │   └── app.js              # UI-Logik
+├── images/
+│   ├── og-kosten-de.png    # OG-Bild Deutsch (1200x630)
+│   └── og-kosten-fr.png    # OG-Bild Französisch (1200x630)
 ├── test.js                 # Tests (node test.js)
 ├── KOSTEN.md               # Detaillierte Kostenübersicht (alle 26 Kantone)
 └── README.md               # Dokumentation
