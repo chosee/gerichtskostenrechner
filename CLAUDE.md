@@ -6,17 +6,26 @@ Schweizer Gerichtskostenrechner für Zivilverfahren. Bilingual (DE/FR), keine Ba
 
 **Live:** https://gerichtskostenrechner.ch
 
+## Verfügbare Tools
+
+| Tool | Beschreibung | Link |
+|------|--------------|------|
+| **Gerichtskostenrechner** | Gerichtskosten für Zivilverfahren (26 Kantone) | [gerichtskostenrechner.ch/de/](https://gerichtskostenrechner.ch/de/) |
+| **Betreibungsrechner** | Betreibungskosten nach GebV SchKG | [gerichtskostenrechner.ch/de/betreibung.html](https://gerichtskostenrechner.ch/de/betreibung.html) |
+
 ## Projektstruktur
 
 ```
 gerichtskostenrechner/
 ├── index.html              # Spracherkennung → Redirect zu /de/ oder /fr/
 ├── de/
-│   ├── index.html          # Deutsche Hauptseite (Rechner)
-│   └── kosten.html         # Kantonale Kostenübersicht (DE)
+│   ├── index.html          # Deutsche Hauptseite (Gerichtskostenrechner)
+│   ├── kosten.html         # Kantonale Kostenübersicht (DE)
+│   └── betreibung.html     # Betreibungsrechner (DE)
 ├── fr/
-│   ├── index.html          # Französische Hauptseite (Rechner)
-│   └── kosten.html         # Kantonale Kostenübersicht (FR)
+│   ├── index.html          # Französische Hauptseite (Gerichtskostenrechner)
+│   ├── kosten.html         # Kantonale Kostenübersicht (FR)
+│   └── betreibung.html     # Calculateur de poursuite (FR)
 ├── css/
 │   └── styles.css          # Gemeinsame Styles
 ├── scripts/
@@ -72,6 +81,28 @@ Kantonale Gebühr = Zürcher Basisgebühr × Kantonsfaktor
 - Mietrecht (unbegrenzt)
 - Gleichstellungsgesetz
 - Mitwirkungsgesetz
+
+### Betreibungsrechner (GebV SchKG)
+
+Berechnet Betreibungskosten nach der Gebührenverordnung zum SchKG:
+
+| Stufe | Forderung | Gebühr |
+|-------|-----------|--------|
+| Art. 16 | bis CHF 100 | CHF 7 |
+| Art. 16 | bis CHF 500 | CHF 20 |
+| Art. 16 | bis CHF 1'000 | CHF 40 |
+| Art. 16 | bis CHF 10'000 | CHF 60 |
+| Art. 16 | bis CHF 100'000 | CHF 90 |
+| Art. 16 | bis CHF 1'000'000 | CHF 190 |
+| Art. 16 | über CHF 1'000'000 | CHF 400 |
+
+**Weitere Gebühren:**
+- **Fortsetzungsbegehren (Art. 19)**: 50% der Grundgebühr
+- **Pfändung (Art. 20)**: Gleich wie Grundgebühr
+- **Verwertung (Art. 21)**: 150% der Grundgebühr
+
+**Rechtsgrundlagen:**
+- [GebV SchKG (SR 281.35)](https://www.fedlex.admin.ch/eli/cc/1996/3112_3112_3112/de)
 
 ## Wichtige Dateien
 

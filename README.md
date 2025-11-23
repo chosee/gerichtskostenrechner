@@ -7,9 +7,16 @@
 <a name="deutsch"></a>
 ## 🇩🇪 Deutsch
 
-Berechne die voraussichtlichen Gerichtskosten für Zivilverfahren in der Schweiz.
+Berechne Gerichtskosten und Betreibungsgebühren für die Schweiz.
 
 **[gerichtskostenrechner.ch](https://gerichtskostenrechner.ch)**
+
+### Verfügbare Tools
+
+| Tool | Beschreibung | Link |
+|------|--------------|------|
+| **Gerichtskostenrechner** | Gerichtskosten für Zivilverfahren (26 Kantone) | [/de/](https://gerichtskostenrechner.ch/de/) |
+| **Betreibungsrechner** | Betreibungskosten nach GebV SchKG | [/de/betreibung.html](https://gerichtskostenrechner.ch/de/betreibung.html) |
 
 ### Was sind Prozesskosten?
 
@@ -57,9 +64,16 @@ Die Gerichtskosten variieren **erheblich** je nach Kanton. Der Rechner berücksi
 <a name="français"></a>
 ## 🇫🇷 Français
 
-Calculez les frais de justice prévisibles pour les procédures civiles en Suisse.
+Calculez les frais de justice et de poursuite pour la Suisse.
 
 **[gerichtskostenrechner.ch](https://gerichtskostenrechner.ch)**
+
+### Outils disponibles
+
+| Outil | Description | Lien |
+|-------|-------------|------|
+| **Frais de justice** | Frais de procédure civile (26 cantons) | [/fr/](https://gerichtskostenrechner.ch/fr/) |
+| **Calculateur de poursuite** | Frais de poursuite selon GebV LP | [/fr/betreibung.html](https://gerichtskostenrechner.ch/fr/betreibung.html) |
 
 ### Que sont les frais de procédure?
 
@@ -109,8 +123,14 @@ Les frais de justice varient **considérablement** selon le canton. Le calculate
 ```
 gerichtskostenrechner/
 ├── index.html           # Spracherkennung / Détection de langue
-├── de/index.html        # Deutsche Version
-├── fr/index.html        # Version française
+├── de/
+│   ├── index.html       # Gerichtskostenrechner (DE)
+│   ├── kosten.html      # Kostenübersicht (DE)
+│   └── betreibung.html  # Betreibungsrechner (DE)
+├── fr/
+│   ├── index.html       # Frais de justice (FR)
+│   ├── kosten.html      # Aperçu des frais (FR)
+│   └── betreibung.html  # Calculateur de poursuite (FR)
 ├── css/styles.css       # Gemeinsame Styles / Styles partagés
 ├── scripts/
 │   ├── calculations.js  # Berechnungslogik / Logique de calcul
