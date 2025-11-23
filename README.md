@@ -168,4 +168,4 @@ MIT
 
 ---
 
-[Durchblick Consultancy BV](https://durchblick.nl) • [Source Code](https://github.com/chosee/gerichtskostenrechner)
+[Durchblick Consultancy BV](https://durchblick.nl) • [Source Code](https://github.com/durchblick-nl/gerichtskostenrechner)

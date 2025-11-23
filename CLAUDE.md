@@ -153,9 +153,9 @@ Dieses Projekt ist Teil einer Suite von Schweizer Rechtstools:
 
 | Projekt | Beschreibung | URL |
 |---------|--------------|-----|
-| **gerichtskostenrechner** | Gerichtskosten für Zivilverfahren | [github.com/chosee/gerichtskostenrechner](https://github.com/chosee/gerichtskostenrechner) |
-| **verzugszinsrechner** | Verzugszinsen nach OR 104 | [github.com/chosee/verzugszinsrechner](https://github.com/chosee/verzugszinsrechner) |
-| **frist** | Fristenrechner (ZPO, OR, etc.) | [github.com/chosee/frist](https://github.com/chosee/frist) |
+| **gerichtskostenrechner** | Gerichtskosten für Zivilverfahren | [github.com/durchblick-nl/gerichtskostenrechner](https://github.com/durchblick-nl/gerichtskostenrechner) |
+| **verzugszinsrechner** | Verzugszinsen nach OR 104 | [github.com/durchblick-nl/verzugszinsrechner](https://github.com/durchblick-nl/verzugszinsrechner) |
+| **frist** | Fristenrechner (ZPO, OR, etc.) | [github.com/durchblick-nl/frist](https://github.com/durchblick-nl/frist) |
 
 Alle drei Projekte:
 - Bilingual (DE/FR)
