@@ -1196,21 +1196,30 @@
             document.getElementById('r-ag-schlichtung').textContent = fmt(r.aussergerichtlich.schlichtung);
             document.getElementById('r-ag-total').textContent = fmt(r.aussergerichtlich.total);
 
-            // 1ère instance
-            document.getElementById('r-i1-gericht').textContent = fmt(r.instanz1.gerichtskosten.berechnet);
+            // 1ère instance - Frais judiciaires avec facteur
+            const gkLabel1 = r.instanz1.gerichtskostenFaktor < 1
+                ? fmt(r.instanz1.gerichtskostenEffektiv) + ' (50%)'
+                : fmt(r.instanz1.gerichtskostenEffektiv);
+            document.getElementById('r-i1-gericht').textContent = gkLabel1;
             document.getElementById('r-i1-honorar').textContent = fmt(r.instanz1.anwaltshonorar.berechnet + r.instanz1.honorarVereinbarung);
             document.getElementById('r-i1-nebenkosten').textContent = fmt(r.instanz1.spesen + r.instanz1.mwst);
             document.getElementById('r-i1-pke').textContent = fmt(r.instanz1.pke);
             document.getElementById('r-i1-total').textContent = fmt(r.instanz1.total);
 
-            // 2ème instance
-            document.getElementById('r-i2-gericht').textContent = fmt(r.instanz2.gerichtskosten.berechnet);
+            // 2ème instance - Frais judiciaires avec facteur
+            const gkLabel2 = r.instanz2.gerichtskostenFaktor < 1
+                ? fmt(r.instanz2.gerichtskostenEffektiv) + ' (50%)'
+                : fmt(r.instanz2.gerichtskostenEffektiv);
+            document.getElementById('r-i2-gericht').textContent = gkLabel2;
             document.getElementById('r-i2-honorar').textContent = fmt(r.instanz2.anwaltshonorar.berechnet);
             document.getElementById('r-i2-nebenkosten').textContent = fmt(r.instanz2.spesen + r.instanz2.mwst);
             document.getElementById('r-i2-total').textContent = fmt(r.instanz2.total);
 
-            // 3ème instance
-            document.getElementById('r-i3-gericht').textContent = fmt(r.instanz3.gerichtskosten.berechnet);
+            // 3ème instance - Frais judiciaires avec facteur
+            const gkLabel3 = r.instanz3.gerichtskostenFaktor < 1
+                ? fmt(r.instanz3.gerichtskostenEffektiv) + ' (50%)'
+                : fmt(r.instanz3.gerichtskostenEffektiv);
+            document.getElementById('r-i3-gericht').textContent = gkLabel3;
             document.getElementById('r-i3-honorar').textContent = fmt(r.instanz3.anwaltshonorar.berechnet);
             document.getElementById('r-i3-nebenkosten').textContent = fmt(r.instanz3.spesen + r.instanz3.mwst);
             document.getElementById('r-i3-total').textContent = fmt(r.instanz3.total);
