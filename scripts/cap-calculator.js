@@ -230,6 +230,12 @@ const CAPCalculator = {
             result.aussergerichtlich.betreibung +
             result.aussergerichtlich.weitereKosten;
 
+        // Gerichtskostenfaktor basierend auf Erfolgsaussichten (gem. CAP Excel)
+        // Optimistisch (Vergleich): 50% Gerichtskosten, 0% PKE
+        // Neutral/Pessimistisch: 100% Gerichtskosten
+        // Pessimistisch (Totalverlust): zusätzlich 100% PKE
+        const gerichtskostenFaktor = erfolgsaussichten === 'optimistisch' ? 0.5 : 1.0;
+
         // === 1. INSTANZ ===
         if (instanz1Aktiv && streitwert1 > 0) {
             const instanzTyp = verfahrensart === 'summarisch' ? 'summarisch' : 'ordentlich_1inst';
@@ -244,8 +250,11 @@ const CAPCalculator = {
             // Parteikostenentschädigung (bei Verlust zu zahlen)
             result.instanz1.pke = result.instanz1.anwaltshonorar.berechnet;
 
+            // Gerichtskosten mit Faktor (50% bei Optimistisch/Vergleich)
+            const gerichtskostenEffektiv = Math.round(result.instanz1.gerichtskosten.berechnet * gerichtskostenFaktor);
+
             result.instanz1.total =
-                result.instanz1.gerichtskosten.berechnet +
+                gerichtskostenEffektiv +
                 honorarTotal +
                 result.instanz1.spesen +
                 result.instanz1.mwst +
@@ -262,8 +271,11 @@ const CAPCalculator = {
             result.instanz2.mwst = Math.round((honorarTotal + result.instanz2.spesen) * meta.mwst);
             result.instanz2.pke = result.instanz2.anwaltshonorar.berechnet;
 
+            // Gerichtskosten mit Faktor (50% bei Optimistisch/Vergleich)
+            const gerichtskostenEffektiv = Math.round(result.instanz2.gerichtskosten.berechnet * gerichtskostenFaktor);
+
             result.instanz2.total =
-                result.instanz2.gerichtskosten.berechnet +
+                gerichtskostenEffektiv +
                 honorarTotal +
                 result.instanz2.spesen +
                 result.instanz2.mwst +
@@ -280,8 +292,11 @@ const CAPCalculator = {
             result.instanz3.mwst = Math.round((honorarTotal + result.instanz3.spesen) * meta.mwst);
             result.instanz3.pke = result.instanz3.anwaltshonorar.berechnet;
 
+            // Gerichtskosten mit Faktor (50% bei Optimistisch/Vergleich)
+            const gerichtskostenEffektiv = Math.round(result.instanz3.gerichtskosten.berechnet * gerichtskostenFaktor);
+
             result.instanz3.total =
-                result.instanz3.gerichtskosten.berechnet +
+                gerichtskostenEffektiv +
                 honorarTotal +
                 result.instanz3.spesen +
                 result.instanz3.mwst +
