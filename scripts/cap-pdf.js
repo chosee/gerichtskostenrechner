@@ -95,8 +95,13 @@ const CAPPdfExport = {
             y = this.checkPageBreak(doc, y, 60);
             y = this.addSectionHeader(doc, texts.instance1, y, primaryColor);
 
+            // Gerichtskosten mit Faktor-Hinweis (50% bei Optimistisch)
+            const gk1Label = result.instanz1.gerichtskostenFaktor < 1
+                ? fmt(result.instanz1.gerichtskostenEffektiv) + ' (50%)'
+                : fmt(result.instanz1.gerichtskostenEffektiv);
+
             const i1Lines = [
-                [texts.courtCosts, fmt(result.instanz1.gerichtskosten.berechnet)],
+                [texts.courtCosts, gk1Label],
                 [texts.attorneyFeeTariff, fmt(result.instanz1.anwaltshonorar.berechnet)]
             ];
 
@@ -119,8 +124,13 @@ const CAPPdfExport = {
             y = this.checkPageBreak(doc, y, 50);
             y = this.addSectionHeader(doc, texts.instance2, y, primaryColor);
 
+            // Gerichtskosten mit Faktor-Hinweis (50% bei Optimistisch)
+            const gk2Label = result.instanz2.gerichtskostenFaktor < 1
+                ? fmt(result.instanz2.gerichtskostenEffektiv) + ' (50%)'
+                : fmt(result.instanz2.gerichtskostenEffektiv);
+
             const i2Lines = [
-                [texts.courtCosts, fmt(result.instanz2.gerichtskosten.berechnet)],
+                [texts.courtCosts, gk2Label],
                 [texts.attorneyFees, fmt(result.instanz2.anwaltshonorar.berechnet)],
                 [texts.expensesVat, fmt(result.instanz2.spesen + result.instanz2.mwst)],
                 [texts.partyCompensation, fmt(result.instanz2.pke)]
@@ -136,8 +146,13 @@ const CAPPdfExport = {
             y = this.checkPageBreak(doc, y, 50);
             y = this.addSectionHeader(doc, texts.instance3, y, primaryColor);
 
+            // Gerichtskosten mit Faktor-Hinweis (50% bei Optimistisch)
+            const gk3Label = result.instanz3.gerichtskostenFaktor < 1
+                ? fmt(result.instanz3.gerichtskostenEffektiv) + ' (50%)'
+                : fmt(result.instanz3.gerichtskostenEffektiv);
+
             const i3Lines = [
-                [texts.courtCosts, fmt(result.instanz3.gerichtskosten.berechnet)],
+                [texts.courtCosts, gk3Label],
                 [texts.attorneyFees, fmt(result.instanz3.anwaltshonorar.berechnet)],
                 [texts.expensesVat, fmt(result.instanz3.spesen + result.instanz3.mwst)],
                 [texts.partyCompensation, fmt(result.instanz3.pke)]

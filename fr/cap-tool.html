@@ -1265,7 +1265,7 @@
 
             // Calcul des scénarios
             const totalPKE = r.instanz1.pke + r.instanz2.pke + r.instanz3.pke;
-            const totalGericht = r.instanz1.gerichtskosten.berechnet + r.instanz2.gerichtskosten.berechnet + r.instanz3.gerichtskosten.berechnet;
+            const totalGericht = r.instanz1.gerichtskostenEffektiv + r.instanz2.gerichtskostenEffektiv + r.instanz3.gerichtskostenEffektiv;
             const totalAnwalt = r.aussergerichtlich.honorarAnwalt + r.aussergerichtlich.spesen + r.aussergerichtlich.mwst +
                               r.instanz1.anwaltshonorar.berechnet + r.instanz1.spesen + r.instanz1.mwst +
                               r.instanz2.anwaltshonorar.berechnet + r.instanz2.spesen + r.instanz2.mwst +
