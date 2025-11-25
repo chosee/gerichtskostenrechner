@@ -10,6 +10,84 @@
     --success-color: #10b981;
     --warning-color: #f59e0b;
     --footer-bg: #444;
+    --card-bg: white;
+    --input-bg: white;
+}
+
+/* Dark Mode */
+[data-theme="dark"] {
+    --primary-color: #5a8a9d;
+    --primary-dark: #6aa0b5;
+    --secondary-color: #7ab0c5;
+    --text-color: #e0e0e0;
+    --light-bg: #1a1a2e;
+    --border-color: #3a3a5a;
+    --card-bg: #252542;
+    --input-bg: #2a2a4a;
+    --footer-bg: #16162a;
+}
+
+[data-theme="dark"] body {
+    background-color: var(--light-bg);
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .calculator-card,
+[data-theme="dark"] .result,
+[data-theme="dark"] .info-step-card,
+[data-theme="dark"] .step-card,
+[data-theme="dark"] .law-card,
+[data-theme="dark"] .modal-content {
+    background: var(--card-bg);
+}
+
+[data-theme="dark"] input[type="text"],
+[data-theme="dark"] input[type="number"],
+[data-theme="dark"] input[type="date"],
+[data-theme="dark"] select {
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .warning {
+    background-color: rgba(245, 158, 11, 0.15);
+}
+
+[data-theme="dark"] .info-alert {
+    background-color: rgba(90, 138, 157, 0.15);
+}
+
+[data-theme="dark"] .holiday-selection,
+[data-theme="dark"] .law-text {
+    background: var(--input-bg);
+}
+
+/* Dark mode toggle button */
+.dark-mode-toggle {
+    background: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    padding: 0;
+}
+
+.dark-mode-toggle:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: none;
+    box-shadow: none;
+}
+
+.dark-mode-toggle i {
+    font-size: 1rem;
 }
 
 * {
@@ -969,5 +1047,59 @@ button:hover {
     .accept-button {
         padding: 0.875rem;
         font-size: 0.95rem;
+    }
+}
+
+/* Copy and Share buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    border: none;
+    text-decoration: none;
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: var(--primary-color);
+}
+
+.copy-btn, .share-btn {
+    margin-right: 0.5rem;
+}
+
+.copy-btn.copy-success {
+    background-color: var(--success-color);
+}
+
+.copy-btn.copy-error {
+    background-color: var(--accent-color);
+}
+
+.result-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    .result-actions {
+        flex-direction: column;
+    }
+
+    .result-actions button,
+    .result-actions a.btn {
+        width: 100%;
+        justify-content: center;
     }
 }

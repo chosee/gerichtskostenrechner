@@ -88,6 +88,9 @@
 <body>
     <div class="container">
         <div class="header-row">
+            <button type="button" class="dark-mode-toggle" aria-label="Basculer le mode sombre" onclick="DarkMode.toggle()">
+                <i class="fas fa-moon"></i>
+            </button>
             <div class="language-switcher">
                 <a href="../de/" class="lang-btn">DE</a>
                 <a href="../fr/" class="lang-btn active">FR</a>
@@ -99,6 +102,7 @@
         <nav class="tool-nav">
             <a href="../fr/" class="active">Frais de justice</a>
             <a href="../fr/betreibung.html">Frais de poursuite</a>
+            <a href="../fr/prozesskostenrisiko.html">Risque de coûts</a>
         </nav>
 
         <div class="steps-container">
@@ -422,6 +426,7 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/3.0.3/jspdf.umd.min.js"></script>
+    <script src="../scripts/utils.js"></script>
     <script src="../scripts/calculations.js"></script>
     <script src="../scripts/app.js"></script>
     <script src="../scripts/pdf-export.js"></script>

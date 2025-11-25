@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prozesskostenrisiko-Rechner Schweiz - Prozessrisiko berechnen</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <meta name="description" content="Berechnen Sie Ihr Prozesskostenrisiko vor Einleitung eines Zivilverfahrens. Gerichtskosten, Anwaltskosten und Gesamtrisiko im Überblick.">
+    <meta name="keywords" content="Prozesskostenrisiko, Prozessrisiko, Kostenrisiko, Gerichtskosten, Anwaltskosten, Zivilprozess, Schweiz">
+    <meta name="author" content="Durchblick Consultancy BV">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://gerichtskostenrechner.ch/de/prozesskostenrisiko.html">
+    <meta property="og:title" content="Prozesskostenrisiko-Rechner Schweiz - Prozessrisiko berechnen">
+    <meta property="og:description" content="Berechnen Sie Ihr Prozesskostenrisiko vor Einleitung eines Zivilverfahrens.">
+    <meta property="og:image" content="https://gerichtskostenrechner.ch/images/og-kosten-de.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="de_CH">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Prozesskostenrisiko-Rechner Schweiz">
+    <meta name="twitter:description" content="Berechnen Sie Ihr Prozesskostenrisiko vor Einleitung eines Zivilverfahrens.">
+    <meta name="twitter:image" content="https://gerichtskostenrechner.ch/images/og-kosten-de.png">
+
+    <!-- Canonical & Language -->
+    <link rel="canonical" href="https://gerichtskostenrechner.ch/de/prozesskostenrisiko.html">
+    <link rel="alternate" hreflang="de" href="https://gerichtskostenrechner.ch/de/prozesskostenrisiko.html">
+    <link rel="alternate" hreflang="fr" href="https://gerichtskostenrechner.ch/fr/prozesskostenrisiko.html">
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Schweizer Prozesskostenrisiko-Rechner",
+        "description": "Berechnen Sie Ihr Prozesskostenrisiko vor Einleitung eines Zivilverfahrens",
+        "url": "https://gerichtskostenrechner.ch/de/prozesskostenrisiko.html",
+        "applicationCategory": "LegalService",
+        "operatingSystem": "Web",
+        "inLanguage": "de-CH",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "CHF"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Durchblick Consultancy BV",
+            "url": "https://durchblick.nl"
+        }
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Economica:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .tool-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .tool-nav a {
+            padding: 8px 16px;
+            background: #f5f5f5;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #3f606f;
+            font-family: 'Economica', sans-serif;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        [data-theme="dark"] .tool-nav a {
+            background: var(--card-bg);
+            color: var(--primary-color);
+        }
+        .tool-nav a:hover {
+            background: #e0e0e0;
+        }
+        [data-theme="dark"] .tool-nav a:hover {
+            background: var(--border-color);
+        }
+        .tool-nav a.active {
+            background: #3f606f;
+            color: white;
+        }
+        [data-theme="dark"] .tool-nav a.active {
+            background: var(--primary-color);
+            color: var(--bg-color);
+        }
+
+        .risk-breakdown {
+            background: var(--light-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .risk-breakdown h4 {
+            margin: 0 0 15px 0;
+            color: var(--primary-color);
+            font-family: 'Economica', sans-serif;
+        }
+
+        .scenario-box {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .scenario-box.win {
+            border-color: var(--success-color);
+        }
+        .scenario-box.lose {
+            border-color: var(--accent-color);
+        }
+        .scenario-box h5 {
+            margin: 0 0 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .scenario-box.win h5 {
+            color: var(--success-color);
+        }
+        .scenario-box.lose h5 {
+            color: var(--accent-color);
+        }
+
+        .cost-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .cost-row:last-child {
+            border-bottom: none;
+        }
+        .cost-row.total {
+            font-weight: bold;
+            padding-top: 10px;
+            margin-top: 5px;
+            border-top: 2px solid var(--primary-color);
+            border-bottom: none;
+        }
+        .cost-row .label {
+            color: var(--text-muted);
+        }
+        .cost-row .amount {
+            font-family: 'Economica', sans-serif;
+            font-weight: 700;
+        }
+        .cost-row .amount.positive {
+            color: var(--success-color);
+        }
+        .cost-row .amount.negative {
+            color: var(--accent-color);
+        }
+
+        .expected-value {
+            background: var(--primary-color);
+            color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .expected-value h4 {
+            margin: 0 0 10px 0;
+            font-family: 'Economica', sans-serif;
+            font-size: 1.1em;
+        }
+        .expected-value .value {
+            font-family: 'Economica', sans-serif;
+            font-size: 2em;
+            font-weight: 700;
+        }
+        .expected-value .value.positive {
+            color: #90EE90;
+        }
+        .expected-value .value.negative {
+            color: #FFB6C1;
+        }
+        .expected-value .hint {
+            font-size: 0.85em;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+
+        .probability-slider {
+            width: 100%;
+            margin: 10px 0;
+        }
+        .probability-display {
+            text-align: center;
+            font-family: 'Economica', sans-serif;
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        [data-theme="dark"] .warning-box {
+            background: #4a4000;
+            border-color: #665800;
+        }
+        .warning-box h5 {
+            margin: 0 0 8px 0;
+            color: #856404;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        [data-theme="dark"] .warning-box h5 {
+            color: #ffc107;
+        }
+        .warning-box p {
+            margin: 0;
+            font-size: 0.9em;
+            color: #856404;
+        }
+        [data-theme="dark"] .warning-box p {
+            color: #e0c000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-row">
+            <button type="button" class="dark-mode-toggle" aria-label="Dunkelmodus umschalten" onclick="DarkMode.toggle()">
+                <i class="fas fa-moon"></i>
+            </button>
+            <div class="language-switcher">
+                <a href="../de/prozesskostenrisiko.html" class="lang-btn active">DE</a>
+                <a href="../fr/prozesskostenrisiko.html" class="lang-btn">FR</a>
+            </div>
+        </div>
+
+        <h1><img src="../favicon.svg" alt="" class="title-icon">Prozesskostenrisiko-Rechner</h1>
+
+        <nav class="tool-nav">
+            <a href="index.html">Gerichtskostenrechner</a>
+            <a href="betreibung.html">Betreibungsrechner</a>
+            <a href="prozesskostenrisiko.html" class="active">Prozesskostenrisiko</a>
+        </nav>
+
+        <div class="steps-container">
+            <div class="step-card">
+                <div class="step-icon">
+                    <i class="fas fa-coins"></i>
+                    <div class="step-number">1</div>
+                </div>
+                <div class="step-content">
+                    <h3>Streitwert eingeben</h3>
+                    <p>Der Streitwert bestimmt die Gerichts- und Anwaltskosten für beide Parteien.</p>
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-icon">
+                    <i class="fas fa-balance-scale"></i>
+                    <div class="step-number">2</div>
+                </div>
+                <div class="step-content">
+                    <h3>Gewinnchance einschätzen</h3>
+                    <p>Eine realistische Einschätzung der Prozesschancen ist entscheidend für die Risikoberechnung.</p>
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-icon">
+                    <i class="fas fa-chart-line"></i>
+                    <div class="step-number">3</div>
+                </div>
+                <div class="step-content">
+                    <h3>Risiko bewerten</h3>
+                    <p>Der erwartete Wert zeigt, ob sich der Prozess finanziell lohnt.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <form id="riskForm">
+                <div class="form-group">
+                    <label for="streitwert" class="required">Streitwert (CHF)</label>
+                    <input type="text"
+                           id="streitwert"
+                           name="streitwert"
+                           inputmode="numeric"
+                           placeholder="z.B. 50000"
+                           required>
+                    <small class="form-hint">Der Wert des Streitgegenstands in Franken</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="canton" class="required">Kanton</label>
+                    <select id="canton" name="canton" required>
+                        <option value="">Bitte wählen...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="verfahren" class="required">Verfahrensart</label>
+                    <select id="verfahren" name="verfahren" required>
+                        <option value="ordentlich">Ordentliches Verfahren (über CHF 30'000)</option>
+                        <option value="vereinfacht">Vereinfachtes Verfahren (bis CHF 30'000)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="probability">Geschätzte Gewinnwahrscheinlichkeit</label>
+                    <input type="range"
+                           id="probability"
+                           name="probability"
+                           min="0"
+                           max="100"
+                           value="50"
+                           class="probability-slider">
+                    <div class="probability-display"><span id="probabilityValue">50</span>%</div>
+                    <small class="form-hint">Ihre Einschätzung, wie wahrscheinlich Sie den Prozess gewinnen</small>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="hasRechtsschutz" name="hasRechtsschutz">
+                        Ich habe eine Rechtsschutzversicherung
+                    </label>
+                </div>
+
+                <button type="submit">Prozessrisiko berechnen</button>
+            </form>
+
+            <div id="result" class="result" style="display: none;">
+                <div class="result-actions">
+                    <button type="button" class="copy-btn" onclick="copyResultToClipboard()">
+                        <i class="fas fa-copy"></i> Kopieren
+                    </button>
+                    <button type="button" onclick="exportPDF()" class="print-button">
+                        <i class="fas fa-file-pdf"></i> Als PDF speichern
+                    </button>
+                </div>
+                <div class="result-summary"></div>
+            </div>
+        </div>
+
+        <div class="info-cards-container">
+            <div class="info-step-card highlight">
+                <div class="step-icon">
+                    <i class="fas fa-balance-scale"></i>
+                </div>
+                <div class="step-content">
+                    <h3>Was ist das Prozesskostenrisiko?</h3>
+                    <p>Das Prozesskostenrisiko umfasst alle Kosten, die bei einem Zivilprozess anfallen können:</p>
+                    <ul>
+                        <li><strong>Gerichtskosten:</strong> Gebühren des Gerichts</li>
+                        <li><strong>Eigene Anwaltskosten:</strong> Honorar Ihres Anwalts</li>
+                        <li><strong>Gegnerische Anwaltskosten:</strong> Bei Niederlage zu erstatten</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-step-card">
+                <div class="step-icon">
+                    <i class="fas fa-gavel"></i>
+                </div>
+                <div class="step-content">
+                    <h3>Kostenverteilung (ZPO Art. 106)</h3>
+                    <p>Die Prozesskosten werden grundsätzlich der unterliegenden Partei auferlegt:</p>
+                    <ul>
+                        <li><strong>Bei Obsiegen:</strong> Gegner zahlt Gerichts- und Parteikosten</li>
+                        <li><strong>Bei Unterliegen:</strong> Sie zahlen alle Kosten</li>
+                        <li><strong>Teilobsiegen:</strong> Kosten werden verhältnismässig verteilt</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-step-card">
+                <div class="step-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="step-content">
+                    <h3>Rechtsschutzversicherung</h3>
+                    <p>Eine Rechtsschutzversicherung kann das Kostenrisiko erheblich reduzieren:</p>
+                    <ul>
+                        <li>Übernahme eigener Anwaltskosten</li>
+                        <li>Übernahme Gerichtskosten</li>
+                        <li>Oft auch gegnerische Kosten bei Niederlage</li>
+                    </ul>
+                    <p style="margin-top: 0.5rem;"><strong>Achtung:</strong> Deckungszusage vor Prozessbeginn einholen!</p>
+                    <p style="margin-top: 0.5rem; font-size: 0.9em;"><strong>Empfehlung:</strong> <a href="https://www.justis.ch" target="_blank" rel="noopener">Justis.ch</a> - Testsieger 2019, 2021, 2023 & 2025</p>
+                </div>
+            </div>
+
+            <div class="info-step-card">
+                <div class="step-icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <div class="step-content">
+                    <h3>Anwaltskosten-Schätzung</h3>
+                    <p>Die Anwaltskosten werden hier grob geschätzt basierend auf:</p>
+                    <ul>
+                        <li>Kantonalen Anwaltstarif-Richtlinien</li>
+                        <li>Ca. 10-15% des Streitwerts (Minimum CHF 2'000)</li>
+                        <li>Effektive Kosten variieren stark nach Komplexität</li>
+                    </ul>
+                    <p style="margin-top: 0.5rem;">Holen Sie immer einen konkreten Kostenvoranschlag ein!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="law-section">
+            <h2>Rechtsgrundlagen</h2>
+            <p class="law-subtitle">Schweizerische Zivilprozessordnung (ZPO)</p>
+
+            <div class="law-card">
+                <div class="law-header">
+                    <h3><a href="https://www.fedlex.admin.ch/eli/cc/2010/262/de#art_106" target="_blank" rel="noopener">Art. 106 ZPO – Verteilungsgrundsätze <i class="fas fa-external-link-alt"></i></a></h3>
+                </div>
+                <div class="law-content">
+                    <ol>
+                        <li>Die Prozesskosten werden der unterliegenden Partei auferlegt. Bei Nichteintreten und bei Klagerückzug gilt die klagende Partei, bei Anerkennung der Klage die beklagte Partei als unterliegend.</li>
+                        <li>Hat keine Partei vollständig obsiegt, so werden die Prozesskosten nach dem Ausgang des Verfahrens verteilt.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="law-card">
+                <div class="law-header">
+                    <h3><a href="https://www.fedlex.admin.ch/eli/cc/2010/262/de#art_95" target="_blank" rel="noopener">Art. 95 ZPO – Prozesskosten <i class="fas fa-external-link-alt"></i></a></h3>
+                </div>
+                <div class="law-content">
+                    <ol>
+                        <li>Die Prozesskosten umfassen:
+                            <ol type="a">
+                                <li>die Gerichtskosten;</li>
+                                <li>die Parteientschädigung.</li>
+                            </ol>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p><a href="https://durchblick.nl/tools_de.html" target="_blank" rel="noopener">Durchblick Consultancy BV – Kostenlose Rechtstools für die Schweiz</a></p>
+            <p class="footer-disclaimer">Dieser Rechner dient nur zur Orientierung und ersetzt keine Rechtsberatung.</p>
+            <p class="footer-privacy">Alle Berechnungen erfolgen lokal in Ihrem Browser. Es werden keine Daten übermittelt oder gespeichert.</p>
+        </div>
+    </footer>
+
+    <div class="print-header" style="display: none;">
+        <img src="https://www.durchblick.nl/images/durchblick_logo.svg" alt="Durchblick Consultancy Logo">
+        <div>
+            <h2>Prozesskostenrisiko-Berechnung</h2>
+            <p id="printDate" style="font-size: 0.9rem; color: #666; margin-top: 0.25rem;"></p>
+        </div>
+    </div>
+
+    <div class="print-footer" style="display: none;">
+        <p><strong>gerichtskostenrechner.ch</strong> – Prozesskostenrisiko-Rechner Schweiz</p>
+        <p>Diese Berechnung dient nur zur Orientierung. Keine Rechtsberatung.</p>
+    </div>
+
+    <div id="disclaimerModal" class="modal">
+        <div class="modal-content">
+            <h2>Rechtlicher Hinweis</h2>
+            <div class="disclaimer-text">
+                <p><strong>Haftungsausschluss und Nutzungsbedingungen</strong></p>
+                <p>Durchblick Consultancy BV stellt diesen Prozesskostenrisiko-Rechner als unverbindliches Orientierungstool zur Verfügung. Trotz sorgfältiger Entwicklung kann keine Gewähr für die Richtigkeit der Berechnungen übernommen werden.</p>
+
+                <p>Es wird insbesondere darauf hingewiesen:</p>
+                <ul>
+                    <li>Die Anwaltskosten sind grobe Schätzungen und können erheblich variieren.</li>
+                    <li>Das effektive Prozessrisiko hängt von vielen Faktoren ab.</li>
+                    <li>Die Gewinnwahrscheinlichkeit ist eine subjektive Einschätzung.</li>
+                    <li>Durchblick Consultancy BV übernimmt keine Haftung für Entscheidungen basierend auf diesen Berechnungen.</li>
+                </ul>
+
+                <p>Mit der Nutzung dieses Dienstes akzeptieren Sie diese Bedingungen.</p>
+            </div>
+            <button onclick="acceptDisclaimer()">Verstanden – Weiter zum Rechner</button>
+        </div>
+    </div>
+
+    <script src="../scripts/calculations.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/3.0.3/jspdf.umd.min.js"></script>
+    <script src="../scripts/utils.js"></script>
+    <script>
+        // Initialize canton dropdown
+        document.addEventListener('DOMContentLoaded', function() {
+            const cantonSelect = document.getElementById('canton');
+            Object.entries(CANTONS).forEach(([code, names]) => {
+                const option = document.createElement('option');
+                option.value = code;
+                option.textContent = names.de;
+                cantonSelect.appendChild(option);
+            });
+
+            // Initialize dark mode
+            DarkMode.init();
+
+            // Show disclaimer if not accepted
+            if (!localStorage.getItem('prozesskostenrisiko_disclaimer_accepted')) {
+                document.getElementById('disclaimerModal').style.display = 'flex';
+            }
+
+            // Probability slider
+            const probabilitySlider = document.getElementById('probability');
+            const probabilityDisplay = document.getElementById('probabilityValue');
+            probabilitySlider.addEventListener('input', function() {
+                probabilityDisplay.textContent = this.value;
+            });
+        });
+
+        function acceptDisclaimer() {
+            localStorage.setItem('prozesskostenrisiko_disclaimer_accepted', 'true');
+            document.getElementById('disclaimerModal').style.display = 'none';
+        }
+
+        // Format number with Swiss formatting
+        function formatCHF(amount) {
+            return "CHF " + Math.round(amount).toLocaleString('de-CH');
+        }
+
+        // Estimate lawyer fees based on Streitwert
+        function estimateLawyerFees(streitwert) {
+            // Rough estimate: 10-15% of Streitwert, minimum CHF 2'000
+            let fees = streitwert * 0.12;
+            return Math.max(2000, Math.min(fees, streitwert * 0.20));
+        }
+
+        // Calculate court fees using existing logic
+        function getCourtFees(streitwert, canton, verfahren) {
+            const feeTable = BASE_FEE_TABLES[verfahren] || BASE_FEE_TABLES.ordentlich;
+            const multiplier = CANTON_FEE_MULTIPLIERS[canton] || 1.0;
+
+            let baseFee = 0;
+            for (const tier of feeTable) {
+                if (streitwert <= tier.max) {
+                    baseFee = tier.mid;
+                    break;
+                }
+            }
+
+            return Math.round(baseFee * multiplier);
+        }
+
+        // Main calculation
+        document.getElementById('riskForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const streitwertInput = document.getElementById('streitwert').value.replace(/[^\d]/g, '');
+            const streitwert = parseInt(streitwertInput) || 0;
+            const canton = document.getElementById('canton').value;
+            const verfahren = document.getElementById('verfahren').value;
+            const probability = parseInt(document.getElementById('probability').value) / 100;
+            const hasRechtsschutz = document.getElementById('hasRechtsschutz').checked;
+
+            if (streitwert <= 0) {
+                alert('Bitte geben Sie einen gültigen Streitwert ein.');
+                return;
+            }
+
+            // Calculate costs
+            const gerichtskosten = getCourtFees(streitwert, canton, verfahren);
+            const eigenAnwalt = estimateLawyerFees(streitwert);
+            const gegnerAnwalt = estimateLawyerFees(streitwert);
+
+            // Scenario: Win - opponent pays all costs (court fees + both lawyers)
+            // Net gain = full claim amount
+            const netGainIfWin = streitwert;
+
+            // Scenario: Lose
+            const costIfLose = hasRechtsschutz ? 0 : (gerichtskosten + eigenAnwalt + gegnerAnwalt);
+            const netLossIfLose = -costIfLose;
+
+            // Expected value
+            const expectedValue = (probability * netGainIfWin) + ((1 - probability) * netLossIfLose);
+
+            // Build result HTML
+            let resultHTML = `
+                <h3>Prozesskostenrisiko-Analyse</h3>
+                <p><strong>Streitwert:</strong> ${formatCHF(streitwert)} | <strong>Kanton:</strong> ${CANTONS[canton].de} | <strong>Verfahren:</strong> ${verfahren === 'ordentlich' ? 'Ordentlich' : 'Vereinfacht'}</p>
+
+                <div class="risk-breakdown">
+                    <h4><i class="fas fa-coins"></i> Geschätzte Kosten</h4>
+                    <div class="cost-row">
+                        <span class="label">Gerichtskosten (geschätzt)</span>
+                        <span class="amount">${formatCHF(gerichtskosten)}</span>
+                    </div>
+                    <div class="cost-row">
+                        <span class="label">Eigene Anwaltskosten (geschätzt)</span>
+                        <span class="amount">${formatCHF(eigenAnwalt)}</span>
+                    </div>
+                    <div class="cost-row">
+                        <span class="label">Gegnerische Anwaltskosten (geschätzt)</span>
+                        <span class="amount">${formatCHF(gegnerAnwalt)}</span>
+                    </div>
+                    <div class="cost-row total">
+                        <span class="label">Maximales Kostenrisiko</span>
+                        <span class="amount">${formatCHF(gerichtskosten + eigenAnwalt + gegnerAnwalt)}</span>
+                    </div>
+                </div>
+
+                <div class="scenario-box win">
+                    <h5><i class="fas fa-trophy"></i> Szenario: Sie gewinnen (${Math.round(probability * 100)}%)</h5>
+                    <div class="cost-row">
+                        <span class="label">Sie erhalten (Streitwert)</span>
+                        <span class="amount positive">+ ${formatCHF(streitwert)}</span>
+                    </div>
+                    <div class="cost-row">
+                        <span class="label">Gerichtskosten</span>
+                        <span class="amount" style="color: var(--text-muted);">vom Gegner bezahlt</span>
+                    </div>
+                    <div class="cost-row">
+                        <span class="label">Anwaltskosten (eigene + Parteientschädigung)</span>
+                        <span class="amount" style="color: var(--text-muted);">vom Gegner bezahlt</span>
+                    </div>
+                    <div class="cost-row total">
+                        <span class="label">Netto-Ergebnis bei Gewinn</span>
+                        <span class="amount positive">+ ${formatCHF(netGainIfWin)}</span>
+                    </div>
+                </div>
+
+                <div class="scenario-box lose">
+                    <h5><i class="fas fa-times-circle"></i> Szenario: Sie verlieren (${Math.round((1 - probability) * 100)}%)</h5>
+                    <div class="cost-row">
+                        <span class="label">Gerichtskosten${hasRechtsschutz ? ' (versichert)' : ''}</span>
+                        <span class="amount ${hasRechtsschutz ? '' : 'negative'}">- ${formatCHF(hasRechtsschutz ? 0 : gerichtskosten)}</span>
+                    </div>
+                    <div class="cost-row">
+                        <span class="label">Eigene Anwaltskosten${hasRechtsschutz ? ' (versichert)' : ''}</span>
+                        <span class="amount ${hasRechtsschutz ? '' : 'negative'}">- ${formatCHF(hasRechtsschutz ? 0 : eigenAnwalt)}</span>
+                    </div>
+                    <div class="cost-row">
+                        <span class="label">Gegnerische Anwaltskosten${hasRechtsschutz ? ' (versichert)' : ''}</span>
+                        <span class="amount ${hasRechtsschutz ? '' : 'negative'}">- ${formatCHF(hasRechtsschutz ? 0 : gegnerAnwalt)}</span>
+                    </div>
+                    <div class="cost-row total">
+                        <span class="label">Netto-Ergebnis bei Niederlage</span>
+                        <span class="amount negative">${formatCHF(netLossIfLose)}</span>
+                    </div>
+                </div>
+
+                <div class="expected-value">
+                    <h4>Erwartungswert bei ${Math.round(probability * 100)}% Gewinnwahrscheinlichkeit</h4>
+                    <div class="value ${expectedValue >= 0 ? 'positive' : 'negative'}">${expectedValue >= 0 ? '+' : ''}${formatCHF(expectedValue)}</div>
+                    <div class="hint">
+                        ${expectedValue >= 0
+                            ? 'Statistisch betrachtet ist ein Prozess bei dieser Gewinnwahrscheinlichkeit lohnenswert.'
+                            : 'Statistisch betrachtet ist das Kostenrisiko höher als der erwartete Gewinn.'}
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <h5><i class="fas fa-exclamation-triangle"></i> Wichtiger Hinweis</h5>
+                    <p>Diese Berechnung dient nur zur groben Orientierung. Die tatsächlichen Kosten und das Prozessrisiko können erheblich abweichen. Lassen Sie sich vor einer Prozessentscheidung immer von einem Anwalt beraten.</p>
+                </div>
+            `;
+
+            document.querySelector('.result-summary').innerHTML = resultHTML;
+            document.getElementById('result').style.display = 'block';
+
+            // Store data for PDF export
+            lastCalculation = {
+                streitwert,
+                cantonName: CANTONS[canton].de,
+                verfahren,
+                probability,
+                hasRechtsschutz,
+                gerichtskosten,
+                eigenAnwalt,
+                gegnerAnwalt,
+                netGainIfWin,
+                netLossIfLose,
+                expectedValue
+            };
+            document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Format input as you type
+        document.getElementById('streitwert').addEventListener('input', function(e) {
+            let value = this.value.replace(/[^\d]/g, '');
+            if (value) {
+                this.value = parseInt(value).toLocaleString('de-CH');
+            }
+        });
+
+        // Copy result to clipboard
+        function copyResultToClipboard() {
+            const resultSummary = document.querySelector('.result-summary');
+            const text = resultSummary.innerText;
+
+            ClipboardUtils.copy(text).then(success => {
+                const button = document.querySelector('.copy-btn');
+                ClipboardUtils.showFeedback(button, success);
+            });
+        }
+
+        // Store last calculation for PDF export
+        let lastCalculation = null;
+
+        // PDF Export
+        function exportPDF() {
+            if (!lastCalculation) {
+                alert('Bitte führen Sie zuerst eine Berechnung durch.');
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const data = lastCalculation;
+
+            const primaryColor = [63, 96, 111];
+            const accentColor = [204, 92, 83];
+            const successColor = [40, 167, 69];
+            const margin = 15;
+            let y = 0;
+
+            // Header bar
+            doc.setFillColor(...primaryColor);
+            doc.rect(0, 0, 210, 28, 'F');
+
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Prozesskostenrisiko-Berechnung', margin, 12);
+
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'normal');
+            doc.text('gerichtskostenrechner.ch', margin, 20);
+            doc.text(new Date().toLocaleDateString('de-CH'), 195, 20, { align: 'right' });
+
+            y = 38;
+
+            // Input summary
+            doc.setTextColor(...primaryColor);
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Eingaben', margin, y);
+            y += 6;
+
+            doc.setDrawColor(...primaryColor);
+            doc.setLineWidth(0.5);
+            doc.line(margin, y, 195, y);
+            y += 8;
+
+            doc.setTextColor(80, 80, 80);
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+
+            const inputData = [
+                ['Streitwert', formatCHF(data.streitwert)],
+                ['Kanton', data.cantonName],
+                ['Verfahren', data.verfahren === 'ordentlich' ? 'Ordentlich' : 'Vereinfacht'],
+                ['Gewinnwahrscheinlichkeit', Math.round(data.probability * 100) + '%']
+            ];
+
+            inputData.forEach(row => {
+                doc.setFont('helvetica', 'normal');
+                doc.text(row[0] + ':', margin, y);
+                doc.setFont('helvetica', 'bold');
+                doc.text(row[1], 80, y);
+                y += 6;
+            });
+
+            y += 8;
+
+            // Cost breakdown
+            doc.setTextColor(...primaryColor);
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Geschätzte Kosten', margin, y);
+            y += 6;
+            doc.line(margin, y, 195, y);
+            y += 6;
+
+            // Costs table
+            doc.setFillColor(248, 249, 250);
+            doc.roundedRect(margin, y, 180, 32, 2, 2, 'F');
+            y += 7;
+
+            doc.setTextColor(80, 80, 80);
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'normal');
+
+            const costs = [
+                ['Gerichtskosten (geschätzt)', formatCHF(data.gerichtskosten)],
+                ['Eigene Anwaltskosten (geschätzt)', formatCHF(data.eigenAnwalt)],
+                ['Gegnerische Anwaltskosten (geschätzt)', formatCHF(data.gegnerAnwalt)]
+            ];
+
+            costs.forEach(row => {
+                doc.text(row[0], margin + 5, y);
+                doc.text(row[1], 190, y, { align: 'right' });
+                y += 6;
+            });
+
+            // Total
+            doc.setDrawColor(200, 200, 200);
+            doc.line(margin + 5, y, 190, y);
+            y += 5;
+            doc.setFont('helvetica', 'bold');
+            doc.text('Maximales Kostenrisiko', margin + 5, y);
+            doc.setTextColor(...accentColor);
+            doc.text(formatCHF(data.gerichtskosten + data.eigenAnwalt + data.gegnerAnwalt), 190, y, { align: 'right' });
+
+            y += 14;
+
+            // Win scenario
+            doc.setFillColor(232, 245, 233);
+            doc.roundedRect(margin, y, 85, 40, 2, 2, 'F');
+            doc.setDrawColor(...successColor);
+            doc.roundedRect(margin, y, 85, 40, 2, 2, 'S');
+
+            doc.setTextColor(...successColor);
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Szenario: Sie gewinnen', margin + 5, y + 8);
+            doc.setFontSize(8);
+            doc.text('(' + Math.round(data.probability * 100) + '%)', margin + 5, y + 14);
+
+            doc.setTextColor(80, 80, 80);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Streitwert: +' + formatCHF(data.streitwert), margin + 5, y + 22);
+            doc.setTextColor(120, 120, 120);
+            doc.setFontSize(7);
+            doc.text('Kosten vom Gegner bezahlt', margin + 5, y + 28);
+
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(9);
+            doc.setTextColor(...successColor);
+            doc.text('Netto: +' + formatCHF(data.netGainIfWin), margin + 5, y + 36);
+
+            // Lose scenario
+            doc.setFillColor(255, 243, 243);
+            doc.roundedRect(margin + 95, y, 85, 40, 2, 2, 'F');
+            doc.setDrawColor(...accentColor);
+            doc.roundedRect(margin + 95, y, 85, 40, 2, 2, 'S');
+
+            doc.setTextColor(...accentColor);
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Szenario: Sie verlieren', margin + 100, y + 8);
+            doc.setFontSize(8);
+            doc.text('(' + Math.round((1 - data.probability) * 100) + '%)', margin + 100, y + 14);
+
+            doc.setTextColor(80, 80, 80);
+            doc.setFont('helvetica', 'normal');
+            const totalLossCosts = data.hasRechtsschutz ? 0 : (data.gerichtskosten + data.eigenAnwalt + data.gegnerAnwalt);
+            doc.text('Alle Kosten: -' + formatCHF(totalLossCosts), margin + 100, y + 22);
+            doc.setTextColor(120, 120, 120);
+            doc.setFontSize(7);
+            doc.text('Gericht + Anwälte beider Seiten', margin + 100, y + 28);
+
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(9);
+            doc.setTextColor(...accentColor);
+            doc.text('Netto: ' + formatCHF(data.netLossIfLose), margin + 100, y + 36);
+
+            y += 50;
+
+            // Expected value box
+            doc.setFillColor(...primaryColor);
+            doc.roundedRect(margin, y, 180, 25, 3, 3, 'F');
+
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Erwartungswert bei ' + Math.round(data.probability * 100) + '% Gewinnwahrscheinlichkeit', 105, y + 9, { align: 'center' });
+
+            doc.setFontSize(14);
+            const evColor = data.expectedValue >= 0 ? [144, 238, 144] : [255, 182, 193];
+            doc.setTextColor(...evColor);
+            doc.text((data.expectedValue >= 0 ? '+' : '') + formatCHF(data.expectedValue), 105, y + 19, { align: 'center' });
+
+            y += 35;
+
+            // Interpretation
+            doc.setTextColor(80, 80, 80);
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'italic');
+            const interpretation = data.expectedValue >= 0
+                ? 'Statistisch betrachtet ist ein Prozess bei dieser Gewinnwahrscheinlichkeit lohnenswert.'
+                : 'Statistisch betrachtet ist das Kostenrisiko höher als der erwartete Gewinn.';
+            doc.text(interpretation, 105, y, { align: 'center' });
+
+            y += 15;
+
+            // Warning box
+            doc.setFillColor(255, 243, 205);
+            doc.roundedRect(margin, y, 180, 22, 2, 2, 'F');
+            doc.setDrawColor(255, 193, 7);
+            doc.roundedRect(margin, y, 180, 22, 2, 2, 'S');
+
+            doc.setTextColor(133, 100, 4);
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Wichtiger Hinweis', margin + 5, y + 7);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(8);
+            const warningLines = doc.splitTextToSize('Diese Berechnung dient nur zur groben Orientierung. Die tatsächlichen Kosten und das Prozessrisiko können erheblich abweichen. Lassen Sie sich vor einer Prozessentscheidung immer von einem Anwalt beraten.', 170);
+            doc.text(warningLines, margin + 5, y + 13);
+
+            // Footer
+            const pageHeight = doc.internal.pageSize.height;
+            doc.setFontSize(8);
+            doc.setTextColor(150, 150, 150);
+            doc.text('Erstellt mit gerichtskostenrechner.ch - Diese Berechnung dient nur zur Orientierung. Keine Rechtsberatung.', 105, pageHeight - 10, { align: 'center' });
+
+            doc.save('prozesskostenrisiko.pdf');
+        }
+    </script>
+</body>
+</html>

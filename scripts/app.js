@@ -275,6 +275,12 @@ function displayResult(result, includeAnwalt) {
             <button type="button" onclick="exportPDF()" class="print-button">
                 <i class="fas fa-file-pdf"></i> ${lang === 'fr' ? 'Enregistrer en PDF' : 'Als PDF speichern'}
             </button>
+            <button type="button" onclick="copyResultToClipboard()" class="btn btn-secondary copy-btn">
+                <i class="fas fa-copy"></i> ${lang === 'fr' ? 'Copier' : 'Kopieren'}
+            </button>
+            <button type="button" onclick="shareCalculation()" class="btn btn-secondary share-btn">
+                <i class="fas fa-link"></i> ${lang === 'fr' ? 'Partager le lien' : 'Link teilen'}
+            </button>
         </div>
         <div class="result-summary">
             <h3>${l.title}</h3>
@@ -446,3 +452,125 @@ function markVerfahrensartSelected() {
         select.dataset.userSelected = 'true';
     }
 }
+
+// ============================================
+// COPY & SHARE FUNCTIONS
+// ============================================
+
+function copyResultToClipboard() {
+    if (!lastCalculationResult) return;
+
+    const lang = getLang();
+    const r = lastCalculationResult;
+
+    let text;
+    if (lang === 'fr') {
+        text = `Calcul des frais de justice
+Canton: ${r.cantonName}
+Valeur litigieuse: ${formatCHF(r.streitwert)}
+Type de procédure: ${r.verfahrensart}
+
+Frais de justice: env. ${formatCHF(r.feesEstimated)}
+Fourchette: ${formatCHF(r.feesMin)} – ${formatCHF(r.feesMax)}
+Avance de frais: ${formatCHF(r.kostenvorschuss)}`;
+
+        if (r.lawyerFeesEstimated) {
+            text += `\nFrais d'avocat: env. ${formatCHF(r.lawyerFeesEstimated)}`;
+            text += `\nCoûts totaux en cas de perte: env. ${formatCHF(r.totalEstimated)}`;
+        }
+        text += `\n\nCalculé sur gerichtskostenrechner.ch`;
+    } else {
+        text = `Gerichtskostenberechnung
+Kanton: ${r.cantonName}
+Streitwert: ${formatCHF(r.streitwert)}
+Verfahrensart: ${r.verfahrensart}
+
+Gerichtskosten: ca. ${formatCHF(r.feesEstimated)}
+Bandbreite: ${formatCHF(r.feesMin)} – ${formatCHF(r.feesMax)}
+Kostenvorschuss: ${formatCHF(r.kostenvorschuss)}`;
+
+        if (r.lawyerFeesEstimated) {
+            text += `\nAnwaltskosten: ca. ${formatCHF(r.lawyerFeesEstimated)}`;
+            text += `\nGesamtkosten bei Verlust: ca. ${formatCHF(r.totalEstimated)}`;
+        }
+        text += `\n\nBerechnet auf gerichtskostenrechner.ch`;
+    }
+
+    const button = document.querySelector('.copy-btn');
+    ClipboardUtils.copy(text).then(success => {
+        ClipboardUtils.showFeedback(button, success);
+    });
+}
+
+function shareCalculation() {
+    if (!lastCalculationResult) return;
+
+    const streitwertInput = document.getElementById('streitwert');
+    const verfahrensartSelect = document.getElementById('verfahrensart');
+    const sachgebietSelect = document.getElementById('sachgebiet');
+    const cantonSelect = document.getElementById('canton');
+    const includeAnwaltCheckbox = document.getElementById('includeAnwalt');
+
+    const params = {
+        sw: parseSwissNumber(streitwertInput.value),
+        va: verfahrensartSelect.value,
+        sg: sachgebietSelect ? sachgebietSelect.value : 'allgemein',
+        kt: cantonSelect ? cantonSelect.value : 'ZH',
+        aw: includeAnwaltCheckbox && includeAnwaltCheckbox.checked ? '1' : '0'
+    };
+
+    const button = document.querySelector('.share-btn');
+    ShareUtils.shareUrl(params, button);
+}
+
+// ============================================
+// URL PARAMETER HANDLING
+// ============================================
+
+function loadFromUrlParams() {
+    if (typeof UrlParams === 'undefined') return;
+
+    const params = UrlParams.getAll();
+
+    if (params.sw) {
+        const streitwert = parseFloat(params.sw);
+        if (!isNaN(streitwert)) {
+            document.getElementById('streitwert').value = formatNumber(streitwert);
+        }
+    }
+
+    if (params.va) {
+        const select = document.getElementById('verfahrensart');
+        if (select) {
+            select.value = params.va;
+            select.dataset.userSelected = 'true';
+        }
+    }
+
+    if (params.sg) {
+        const select = document.getElementById('sachgebiet');
+        if (select) select.value = params.sg;
+    }
+
+    if (params.kt) {
+        const select = document.getElementById('canton');
+        if (select) select.value = params.kt;
+    }
+
+    if (params.aw !== undefined) {
+        const checkbox = document.getElementById('includeAnwalt');
+        if (checkbox) checkbox.checked = params.aw === '1';
+    }
+
+    // Auto-calculate if streitwert parameter present
+    if (params.sw) {
+        setTimeout(() => {
+            calculateAndDisplay();
+        }, 100);
+    }
+}
+
+// Load URL parameters after DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(loadFromUrlParams, 100);
+});
