@@ -64,7 +64,7 @@ const GerichtskostenPdfExport = {
 
         doc.setFontSize(14);
         doc.setTextColor(...accentColor);
-        doc.text('ca. ' + this.formatCHF(data.feesEstimated), 120, y + 8);
+        doc.text('ca. ' + this.formatCHF(data.feesEstimated), 190, y + 8, { align: 'right' });
 
         doc.setFontSize(8);
         doc.setTextColor(100, 100, 100);
@@ -79,7 +79,7 @@ const GerichtskostenPdfExport = {
         doc.setFont('helvetica', 'normal');
         doc.text(texts.deposit, 15, y);
         doc.setFont('helvetica', 'bold');
-        doc.text(this.formatCHF(data.kostenvorschuss), 120, y);
+        doc.text(this.formatCHF(data.kostenvorschuss), 190, y, { align: 'right' });
 
         y += 10;
 
@@ -100,7 +100,7 @@ const GerichtskostenPdfExport = {
             doc.text(texts.lawyerFees, 25, y + 9);
 
             doc.setTextColor(0, 0, 0);
-            doc.text('ca. ' + this.formatCHF(data.lawyerFeesEstimated), 120, y + 9);
+            doc.text('ca. ' + this.formatCHF(data.lawyerFeesEstimated), 190, y + 9, { align: 'right' });
 
             y += 18;
 
@@ -115,7 +115,7 @@ const GerichtskostenPdfExport = {
 
             doc.setTextColor(0, 0, 0);
             doc.setFont('helvetica', 'normal');
-            doc.text('ca. ' + this.formatCHF(data.lawyerFeesEstimated), 120, y + 9);
+            doc.text('ca. ' + this.formatCHF(data.lawyerFeesEstimated), 190, y + 9, { align: 'right' });
 
             y += 20;
 
@@ -135,7 +135,7 @@ const GerichtskostenPdfExport = {
 
             doc.setFontSize(14);
             doc.setTextColor(...accentColor);
-            doc.text('ca. ' + this.formatCHF(data.totalEstimated), 120, y + 8);
+            doc.text('ca. ' + this.formatCHF(data.totalEstimated), 190, y + 8, { align: 'right' });
 
             doc.setFontSize(8);
             doc.setTextColor(100, 100, 100);
@@ -198,7 +198,7 @@ const GerichtskostenPdfExport = {
         rows.forEach(row => {
             doc.text(row[0], x, y);
             doc.setFont('helvetica', 'bold');
-            doc.text(row[1], 120, y);
+            doc.text(row[1], 190, y, { align: 'right' });
             doc.setFont('helvetica', 'normal');
             y += 6;
         });
@@ -206,7 +206,7 @@ const GerichtskostenPdfExport = {
     },
 
     formatCHF(amount) {
-        return 'CHF ' + amount.toLocaleString('de-CH', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+        return 'CHF ' + amount.toLocaleString('de-CH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     },
 
     formatDate(date, lang) {
@@ -332,7 +332,7 @@ const BetreibungPdfExport = {
             doc.setFont('helvetica', 'normal');
             doc.text(row[0], 15, y);
             doc.setFont('helvetica', 'bold');
-            doc.text(row[1], 120, y);
+            doc.text(row[1], 190, y, { align: 'right' });
             y += 7;
         });
 
@@ -349,9 +349,19 @@ const BetreibungPdfExport = {
 
         doc.setFontSize(14);
         doc.setTextColor(...accentColor);
-        doc.text(this.formatCHF(data.total), 120, y + 12);
+        doc.text(this.formatCHF(data.total), 190, y + 12, { align: 'right' });
 
-        y += 30;
+        y += 28;
+
+        // Hinweis Rechtsvorschlag
+        doc.setFillColor(255, 248, 240);
+        doc.roundedRect(15, y, 180, 12, 2, 2, 'F');
+        doc.setFontSize(8);
+        doc.setTextColor(150, 100, 50);
+        doc.setFont('helvetica', 'italic');
+        doc.text(texts.legalOppositionNote, 20, y + 8);
+
+        y += 18;
 
         // Rechtliche Grundlagen
         y = this.addSectionHeader(doc, texts.legalBasis, y, primaryColor);
@@ -407,7 +417,7 @@ const BetreibungPdfExport = {
         rows.forEach(row => {
             doc.text(row[0], x, y);
             doc.setFont('helvetica', 'bold');
-            doc.text(row[1], 120, y);
+            doc.text(row[1], 190, y, { align: 'right' });
             doc.setFont('helvetica', 'normal');
             y += 6;
         });
@@ -415,7 +425,7 @@ const BetreibungPdfExport = {
     },
 
     formatCHF(amount) {
-        return 'CHF ' + amount.toLocaleString('de-CH', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+        return 'CHF ' + amount.toLocaleString('de-CH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     },
 
     formatDate(date, lang) {
@@ -446,6 +456,7 @@ const BetreibungPdfExport = {
                 seizure: 'Saisie (Art. 20)',
                 realization: 'Réalisation (Art. 21)',
                 totalFees: 'Total des frais:',
+                legalOppositionNote: 'Note: En cas d\'opposition, des frais de mainlevée s\'ajoutent (env. CHF 150–300).',
                 legalBasis: 'Base légale',
                 disclaimer: 'Ce document sert uniquement d\'orientation. Pas de conseil juridique.',
                 footerInfo: 'Calculateur des frais de poursuite suisses'
@@ -463,6 +474,7 @@ const BetreibungPdfExport = {
             seizure: 'Pfändung (Art. 20)',
             realization: 'Verwertung (Art. 21)',
             totalFees: 'Total Gebühren:',
+            legalOppositionNote: 'Hinweis: Bei Rechtsvorschlag fallen zusätzlich Gerichtskosten für die Rechtsöffnung an (ca. CHF 150–300).',
             legalBasis: 'Rechtliche Grundlagen',
             disclaimer: 'Dieses Dokument dient nur zur Orientierung. Keine Rechtsberatung.',
             footerInfo: 'Schweizer Betreibungskostenrechner'
