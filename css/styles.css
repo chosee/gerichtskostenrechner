@@ -555,6 +555,15 @@ button:hover {
     margin: 0;
 }
 
+.step-content a {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+.step-content a:hover {
+    color: var(--primary-color);
+}
+
 @media (max-width: 968px) {
     .steps-container {
         grid-template-columns: 1fr;
