@@ -21,18 +21,28 @@ gerichtskostenrechner/
 ├── de/
 │   ├── index.html          # Deutsche Hauptseite (Gerichtskostenrechner)
 │   ├── kosten.html         # Kantonale Kostenübersicht (DE)
-│   └── betreibung.html     # Betreibungsrechner (DE)
+│   ├── betreibung.html     # Betreibungsrechner (DE)
+│   ├── prozesskostenrisiko.html  # Prozesskostenrisiko (DE)
+│   └── cap-tool.html       # CAP Schadentool (DE)
 ├── fr/
 │   ├── index.html          # Französische Hauptseite (Gerichtskostenrechner)
 │   ├── kosten.html         # Kantonale Kostenübersicht (FR)
-│   └── betreibung.html     # Calculateur de poursuite (FR)
+│   ├── betreibung.html     # Calculateur de poursuite (FR)
+│   ├── prozesskostenrisiko.html  # Risque de frais (FR)
+│   └── cap-tool.html       # Outil CAP (FR)
 ├── css/
 │   └── styles.css          # Gemeinsame Styles
 ├── scripts/
 │   ├── calculations.js     # Berechnungslogik + Kantonsfaktoren
 │   ├── app.js              # UI-Logik
 │   ├── pdf-export.js       # PDF-Export (jsPDF)
+│   ├── cap-data.js         # CAP-Tool Daten
+│   ├── cap-calculator.js   # CAP-Tool Berechnungen
 │   └── cap-pdf.js          # PDF-Export für CAP-Tool
+├── downloads/              # Offline-Bundles (ZIP-Dateien)
+├── offline-bundle/         # Build-Tools für Offline-Versionen
+│   ├── build-all-offline.js  # Build-Script
+│   └── *.ttf, *.min.js     # Eingebettete Assets
 ├── images/
 │   ├── og-kosten-de.png    # OG-Bild Deutsch (1200x630)
 │   └── og-kosten-fr.png    # OG-Bild Französisch (1200x630)
@@ -40,6 +50,25 @@ gerichtskostenrechner/
 ├── KOSTEN.md               # Detaillierte Kostenübersicht (alle 26 Kantone)
 └── README.md               # Dokumentation
 ```
+
+## Offline-Bundles
+
+Jedes Tool ist als standalone HTML-Datei verfügbar, die ohne Internet funktioniert.
+
+### Build-Befehl
+
+```bash
+cd offline-bundle && node build-all-offline.js
+```
+
+### Verfügbare Bundles
+
+| Tool | DE | FR |
+|------|----|----|
+| Gerichtskostenrechner | `gerichtskostenrechner-offline-de.zip` | `gerichtskostenrechner-offline-fr.zip` |
+| Betreibungsrechner | `betreibungsrechner-offline-de.zip` | `betreibungsrechner-offline-fr.zip` |
+| Prozesskostenrisiko | `prozesskostenrisiko-offline-de.zip` | `prozesskostenrisiko-offline-fr.zip` |
+| CAP-Tool | `cap-tool-offline-de.zip` | `cap-tool-offline-fr.zip` |
 
 ## Berechnungslogik
 
